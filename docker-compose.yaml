@@ -9,10 +9,21 @@ services:
     ports:
       - "127.0.0.1:8888:8888"
     restart: unless-stopped
+    env_file: .env
+    networks:
+      pancakelock-api:
+    depends_on:
+      - test_db
+
+  test_db:
+    image: postgres
+    container_name: db
+    env_file: .env
+    volumes:
+      - ./.docker/postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
     networks:
       pancakelock-api:
 
 networks:
   pancakelock-api:
-
-#==5.24.0
